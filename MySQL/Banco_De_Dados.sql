@@ -110,3 +110,18 @@ SELECT SUM(ValorTotal) AS TotalPagamentos
 FROM Pagamento
 WHERE OperadoraCartaoCredito = 'Visa' AND MONTH(DataPagamento) = 1 AND YEAR(DataPagamento) = 2023;
 
+DELIMITER //
+CREATE PROCEDURE CopiarEEliminarReservasNaoEfetivadas()
+BEGIN
+    INSERT INTO ReservasNaoEfetivadas (CodigoReserva, CPF, Status, DataReserva, DataValidade)
+    SELECT CodigoReserva, CPF, Status, DataReserva, DataValidade
+    FROM Reserva
+    WHERE Status = 'NaoEfetivada' AND DataValidade < CURDATE();
+
+    DELETE FROM Reserva
+    WHERE Status = 'NaoEfetivada' AND DataValidade < CURDATE();
+END //
+
+DELIMITER ;
+
+
