@@ -15,7 +15,7 @@ def create_connection():
             host='localhost',
             user='root',
             password='samsung11',
-            database='bosta'
+            database='Companhia_Aerea'
         )
         return conexao
     except Error as e:
