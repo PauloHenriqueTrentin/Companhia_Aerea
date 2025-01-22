@@ -46,3 +46,24 @@ def create_reserva(codigo_reserva, cpf, status, data_reserva, data_validade):
                 cursor.close()
             conexao.close()
 
+def read_reserva(codigo_reserva):
+    """
+    READ
+    Função para ler uma reserva do banco de dados baseado no código da reserva.
+    READ
+    """
+    conexao = create_connection()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            select_query = "SELECT * FROM Reserva WHERE CodigoReserva = %s"
+            cursor.execute(select_query, (codigo_reserva,))
+            reserva = cursor.fetchone()
+            return reserva
+        except Error as e:
+            print(f"Erro ao ler reserva: {e}")
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            conexao.close()
+
