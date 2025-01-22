@@ -156,3 +156,19 @@ LEFT JOIN ReservaTrecho rt ON r.CodigoReserva = rt.CodigoReserva
 LEFT JOIN TrechoVoo t ON rt.CodigoTrecho = t.CodigoTrecho
 WHERE t.CodigoTrecho IS NULL OR YEAR(t.DataHoraPartida) < YEAR(CURDATE()) - 1;
 
+DELIMITER //
+
+CREATE FUNCTION ContarReservas(CPF CHAR(11), dataInicio DATE, dataFim DATE)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE numeroReservas INT;
+    SELECT COUNT(*)
+    INTO numeroReservas
+    FROM Reserva
+    WHERE Reserva.CPF = CPF AND Reserva.DataReserva BETWEEN dataInicio AND dataFim;
+    RETURN numeroReservas;
+END //
+
+DELIMITER ;
+
