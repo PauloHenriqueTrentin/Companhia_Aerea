@@ -139,3 +139,20 @@ END //
 
 DELIMITER ;
 
+SELECT Nome, Email
+FROM Cliente
+WHERE DATE_FORMAT(DataNascimento, '%m-%d') = DATE_FORMAT('2023-06-25', '%m-%d');
+
+SELECT t.CodigoTrecho, t.DataHoraPartida, t.DataHoraChegada, t.Classe, t.CodigoVoo
+FROM TrechoVoo t
+WHERE t.CodigoVoo IN ('VOO123', 'VOO456')
+GROUP BY t.CodigoTrecho
+HAVING COUNT(t.CodigoTrecho) > 1;
+
+SELECT c.Nome, c.Email
+FROM Cliente c
+LEFT JOIN Reserva r ON c.CPF = r.CPF
+LEFT JOIN ReservaTrecho rt ON r.CodigoReserva = rt.CodigoReserva
+LEFT JOIN TrechoVoo t ON rt.CodigoTrecho = t.CodigoTrecho
+WHERE t.CodigoTrecho IS NULL OR YEAR(t.DataHoraPartida) < YEAR(CURDATE()) - 1;
+
