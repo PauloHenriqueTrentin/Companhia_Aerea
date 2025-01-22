@@ -150,3 +150,55 @@ def delete_reserva(codigo_reserva):
                 cursor.close()
             conexao.close()
 
+def menu():
+    """
+    MENU
+    Função que exibe um menu interativo para gerenciar reservas.
+    MENU
+    """
+    while True:
+        print("\nMenu de Reservas:")
+        print("1. Criar Reserva")
+        print("2. Ler Reserva")
+        print("3. Atualizar Reserva")
+        print("4. Deletar Reserva")
+        print("5. Sair")
+        choice = input("Escolha uma opção: ")
+
+        if choice == '1':
+            codigo_reserva = input("Digite o código da reserva: ")
+            cpf = input("Digite o CPF: ")
+            status = input("Digite o status (Efetivada/NaoEfetivada): ")
+            data_reserva = input("Digite a data da reserva (AAAA-MM-DD): ")
+            data_validade = input("Digite a data de validade (AAAA-MM-DD): ")
+            create_reserva(codigo_reserva, cpf, status, data_reserva, data_validade)
+        
+        elif choice == '2':
+            codigo_reserva = input("Digite o código da reserva: ")
+            reserva = read_reserva(codigo_reserva)
+            if reserva:
+                print(f"Reserva encontrada: {reserva}")
+            else:
+                print("Reserva não encontrada.")
+        
+        elif choice == '3':
+            codigo_reserva = input("Digite o código da reserva: ")
+            cpf = input("Digite o novo CPF (ou deixe vazio para não alterar): ")
+            status = input("Digite o novo status (ou deixe vazio para não alterar): ")
+            data_reserva = input("Digite a nova data da reserva (ou deixe vazio para não alterar): ")
+            data_validade = input("Digite a nova data de validade (ou deixe vazio para não alterar): ")
+            update_reserva(codigo_reserva, cpf if cpf else None, status if status else None, data_reserva if data_reserva else None, data_validade if data_validade else None)
+        
+        elif choice == '4':
+            codigo_reserva = input("Digite o código da reserva: ")
+            delete_reserva(codigo_reserva)
+        
+        elif choice == '5':
+            print("Saindo do programa.")
+            break
+        
+        else:
+            print("Opção inválida. Por favor, escolha uma opção válida.")
+
+if __name__ == "__main__":
+    menu()
