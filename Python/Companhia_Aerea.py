@@ -118,12 +118,33 @@ def update_reserva(codigo_reserva, cpf=None, status=None, data_reserva=None, dat
             update_query += ", ".join(updates)
             update_query += " WHERE CodigoReserva = %s"
             params.append(codigo_reserva)
-            
+
             cursor.execute(update_query, tuple(params))
             conexao.commit()
             print("Reserva atualizada com sucesso!")
         except Error as e:
             print(f"Erro ao atualizar reserva: {e}")
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            conexao.close()
+
+def delete_reserva(codigo_reserva):
+    """
+    DELETE
+    Função para deletar uma reserva do banco de dados.
+    DELETE
+    """
+    conexao = create_connection()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            delete_query = "DELETE FROM Reserva WHERE CodigoReserva = %s"
+            cursor.execute(delete_query, (codigo_reserva,))
+            conexao.commit()
+            print("Reserva deletada com sucesso!")
+        except Error as e:
+            print(f"Erro ao deletar reserva: {e}")
         finally:
             if 'cursor' in locals():
                 cursor.close()
