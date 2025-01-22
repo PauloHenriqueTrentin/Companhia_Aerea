@@ -22,3 +22,27 @@ def create_connection():
         print(f"Erro ao conectar ao banco de dados: {e}")
         return None
 
+def create_reserva(codigo_reserva, cpf, status, data_reserva, data_validade):
+    """
+    CREATE
+    Função para inserir uma nova reserva no banco de dados.
+    CREATE
+    """
+    conexao = create_connection()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            insert_query = """
+            INSERT INTO Reserva (CodigoReserva, CPF, Status, DataReserva, DataValidade)
+            VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(insert_query, (codigo_reserva, cpf, status, data_reserva, data_validade))
+            conexao.commit()
+            print("Reserva criada com sucesso!")
+        except Error as e:
+            print(f"Erro ao inserir reserva: {e}")
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            conexao.close()
+
