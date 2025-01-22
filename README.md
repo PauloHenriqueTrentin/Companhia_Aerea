@@ -1,4 +1,4 @@
-# Sistema de Gestão de Reservas de Passagens Aéreas - Companhia Aérea
+# ✈️ Sistema de Gestão de Reservas de Passagens Aéreas - Companhia Aérea
 
 Este projeto consiste em um sistema de gestão de reservas de passagens aéreas para uma companhia aérea. O sistema é composto por um banco de dados MySQL e um CRUD em Python, permitindo que o usuário execute operações básicas de criação, leitura, atualização e exclusão (CRUD) de reservas, diretamente através do terminal.
 
