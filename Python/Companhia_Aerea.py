@@ -67,3 +67,65 @@ def read_reserva(codigo_reserva):
                 cursor.close()
             conexao.close()
 
+def read_reserva(codigo_reserva):
+    """
+    READ
+    Função para ler uma reserva do banco de dados baseado no código da reserva.
+    READ
+    """
+    conexao = create_connection()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            select_query = "SELECT * FROM Reserva WHERE CodigoReserva = %s"
+            cursor.execute(select_query, (codigo_reserva,))
+            reserva = cursor.fetchone()
+            return reserva
+        except Error as e:
+            print(f"Erro ao ler reserva: {e}")
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            conexao.close()
+
+def update_reserva(codigo_reserva, cpf=None, status=None, data_reserva=None, data_validade=None):
+    """
+    UPDATE
+    Função para atualizar uma reserva no banco de dados.
+    UPDATE
+    """
+    conexao = create_connection()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            update_query = "UPDATE Reserva SET "
+            updates = []
+            params = []
+            
+            if cpf:
+                updates.append("CPF = %s")
+                params.append(cpf)
+            if status:
+                updates.append("Status = %s")
+                params.append(status)
+            if data_reserva:
+                updates.append("DataReserva = %s")
+                params.append(data_reserva)
+            if data_validade:
+                updates.append("DataValidade = %s")
+                params.append(data_validade)
+            
+            update_query += ", ".join(updates)
+            update_query += " WHERE CodigoReserva = %s"
+            params.append(codigo_reserva)
+            
+            cursor.execute(update_query, tuple(params))
+            conexao.commit()
+            print("Reserva atualizada com sucesso!")
+        except Error as e:
+            print(f"Erro ao atualizar reserva: {e}")
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            conexao.close()
+
