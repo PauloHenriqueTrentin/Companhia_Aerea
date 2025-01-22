@@ -85,3 +85,28 @@ INSERT INTO ReservaTrecho (CodigoReserva, CodigoTrecho) VALUES
 ('R002', 'T003'),
 ('R003', 'T004');
 
+SELECT t.DataHoraPartida, t.DataHoraChegada, t.Classe, v.Origem, v.Destino
+FROM TrechoVoo t
+JOIN Voo v ON t.CodigoVoo = v.CodigoVoo
+WHERE t.DataHoraPartida BETWEEN '2023-01-01' AND '2023-01-31';
+
+SELECT c.CPF, c.Nome, r.CodigoReserva, t.DataHoraPartida, t.DataHoraChegada, v.Origem, v.Destino, t.Classe
+FROM Cliente c
+JOIN Reserva r ON c.CPF = r.CPF
+JOIN ReservaTrecho rt ON r.CodigoReserva = rt.CodigoReserva
+JOIN TrechoVoo t ON rt.CodigoTrecho = t.CodigoTrecho
+JOIN Voo v ON t.CodigoVoo = v.CodigoVoo
+WHERE c.CPF = '12345678900' AND r.DataReserva BETWEEN '2023-01-01' AND '2023-12-31';
+
+SELECT c.Nome, c.Email, v.Origem, v.Destino
+FROM Cliente c
+JOIN Reserva r ON c.CPF = r.CPF
+JOIN ReservaTrecho rt ON r.CodigoReserva = rt.CodigoReserva
+JOIN TrechoVoo t ON rt.CodigoTrecho = t.CodigoTrecho
+JOIN Voo v ON t.CodigoVoo = v.CodigoVoo
+WHERE v.CodigoVoo = 'VOO123' AND r.DataReserva = CURDATE();
+
+SELECT SUM(ValorTotal) AS TotalPagamentos
+FROM Pagamento
+WHERE OperadoraCartaoCredito = 'Visa' AND MONTH(DataPagamento) = 1 AND YEAR(DataPagamento) = 2023;
+
